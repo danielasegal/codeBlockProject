@@ -26,7 +26,7 @@ function index({ taskListArr, setCurrentTask, teacher }) {
             justifyContent: "center",
           }}
         >
-          {renderTasks}
+          {taskListArr.length > 0 ? renderTasks : <>Loading...</>}
         </div>
         <p>PLEASE CHOOSE A TASK</p>
       </div>

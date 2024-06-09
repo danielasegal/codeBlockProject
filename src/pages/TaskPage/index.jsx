@@ -43,20 +43,12 @@ export default function TaskPage({
   }, [solution]);
 
   useEffect(() => {
-    // Emit the solution to the server
-    if (!initialRender.current) {
-      socket.emit("message", {
-        title: currentTask ? currentTask.title : "",
-        solution: solution,
-      });
-    }
-  }, [solution, socket]);
-
-  useEffect(() => {
     // Listen for the "message" event from the server
     const handleMessage = (data) => {
       // Update the received message state with the data from the server
-      data.title === currentTask.title && setSolution(data.solution);
+      if (data.title === currentTask.title) {
+        setSolution(data.solution);
+      }
     };
 
     socket.on("message", handleMessage);
@@ -83,12 +75,19 @@ export default function TaskPage({
 
     return () => {
       socket.off("message", handleMessage);
+      socket.off("submitMessage", handleSubmit);
+      socket.off("correctSolution", handleCorrectSolution);
     };
   }, [currentTask, socket]);
 
   const handleChange = (value) => {
     if (value !== solution) {
-      setSolution(value);
+      if (!initialRender.current) {
+        socket.emit("message", {
+          title: currentTask ? currentTask.title : "",
+          solution: solution,
+        });
+      }
     }
   };
 

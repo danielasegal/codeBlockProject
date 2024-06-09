@@ -17,7 +17,7 @@ function index() {
       >
         <h1 style={{ color: "yellow" }}> CODE BLOCK</h1>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <button style={logBlockStyle} onClick={() => navigate("/HomePage/")}>
+          <button style={logBlockStyle} onClick={() => navigate("/HomePage")}>
             connect class
           </button>
         </div>

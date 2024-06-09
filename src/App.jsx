@@ -19,8 +19,6 @@ function App() {
 
     socket.on("connect", () => {
       console.log("Connected to server");
-      // Sending a request from the client after connection
-      socket.emit("requestEvent", { message: "Hello from client" });
     });
 
     // Receiving a message from the server
@@ -55,19 +53,18 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" exact element={<LogPage setTeacher={setTeacher} />} />
-        {tasksList.length > 0 && (
-          <Route
-            path="/HomePage"
-            exact
-            element={
-              <HomePage
-                taskListArr={tasksList}
-                setCurrentTask={setCurrentTask}
-                teacher={teacher}
-              />
-            }
-          />
-        )}
+
+        <Route
+          path="/HomePage"
+          exact
+          element={
+            <HomePage
+              taskListArr={tasksList}
+              setCurrentTask={setCurrentTask}
+              teacher={teacher}
+            />
+          }
+        />
 
         <Route
           path={"/TaskPage/:currentTask"}
