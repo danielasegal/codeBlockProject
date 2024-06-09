@@ -7,9 +7,9 @@ export const taskBlockStyle = {
   backgroundColor: "yellow",
   cursor: "pointer",
   color: "black",
-  width: "15vw",
+  width: window.innerWidth < 768 ? "30vw" : "15vw",
   height: "15vh",
-  margin: "4vh",
+  margin: window.innerWidth < 768 ? "3vw" : "4vh",
 };
 
 export const logBlockStyle = {

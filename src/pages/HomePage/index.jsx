@@ -17,7 +17,9 @@ function index({ taskListArr, setCurrentTask, teacher }) {
       <div>
         {teacher && <p>HELLO TEACHER WELCOME TO</p>}
         {!teacher && <p>HELLO WELCOME TO</p>}
-        <h2 style={{ color: "yellow", fontFamily: "logo-font" }}>
+        <h2
+          style={{ fontSize: "50px", color: "yellow", fontFamily: "logo-font" }}
+        >
           {" "}
           CODE BLOCK
         </h2>
