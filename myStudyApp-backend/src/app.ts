@@ -7,7 +7,7 @@ import apiRouter from "./routes";
 import { dataSource } from "./database";
 import TaskService from "./services/TaskService";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 let teacherID = null;
 let studentID = null;

@@ -2,9 +2,11 @@
   "name": "mystudyapp-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "build": "npm-run-all clean tsc",
+    "build:clean": "npm-run-all clean build",
+    "build": "tsc --outDir ./dist",
+    "clean": "rimraf ./dist",
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src ./src/app.ts",
     "start": "cd src node .",
@@ -33,6 +35,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.14.2",
     "@types/ws": "^8.5.10",
+    "npm-run-all": "^4.1.5",
     "typescript": "^5.4.5"
   }
 }

@@ -4,7 +4,7 @@ import io from "socket.io-client"; // Import socket.io-client for creating socke
 const clientId = localStorage.getItem("clientId") || uuidv4(); // Get client ID from local storage or generate a new one
 localStorage.setItem("clientId", clientId); // Store the client ID in local storage
 
-const socket = io("http://localhost:3000", {
+const socket = io(import.meta.VITE_APP_BACKEND_URL || "http://localhost:3000", {
   query: { clientId }, // Pass the client ID to the server during the handshake
 });
 
