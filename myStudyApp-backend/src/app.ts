@@ -131,6 +131,7 @@ io.on("connection", (socket) => {
 
   socket.conn.on("close", () => {
     delete connectedClients[clientId];
+    console.log(clientId, "disconnected");
   });
 });
 
