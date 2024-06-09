@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+const path = require("path");
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
@@ -15,6 +16,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const httpServer = http.createServer(app);
+
+// Serve static files from the 'build' directory
+app.use(express.static(path.join(__dirname, "build")));
+
+// Handle all other routes by serving the index.html file
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const io = new Server(httpServer, {
   cors: {
@@ -130,10 +139,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("submitMessage", data);
   });
 
-  // socket.conn.on("close", () => {
-  //   delete connectedClients[clientId];
-  //   console.log(clientId, "disconnected");
-  // });
+  socket.conn.on("close", () => {
+    delete connectedClients[clientId];
+    console.log(clientId, "disconnected");
+  });
 });
 
 app.use("/api", apiRouter);
