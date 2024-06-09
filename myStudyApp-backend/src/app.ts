@@ -130,10 +130,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("submitMessage", data);
   });
 
-  socket.conn.on("close", () => {
-    delete connectedClients[clientId];
-    console.log(clientId, "disconnected");
-  });
+  // socket.conn.on("close", () => {
+  //   delete connectedClients[clientId];
+  //   console.log(clientId, "disconnected");
+  // });
 });
 
 app.use("/api", apiRouter);
