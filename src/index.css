@@ -28,6 +28,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #222; /* Dark grey background color */
+  color: #fff; /* White font color */
+  font-family: Arial, sans-serif; /* Default font family */
 }
 
 h1 {

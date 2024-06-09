@@ -21,7 +21,6 @@ export default function TaskPage({
   const pathName = window.location.pathname.split("/");
   const initialRender = useRef(true);
   const [showSmile, setShowSmile] = useState(false);
-  const [externalChange, setExternalChange] = useState(false);
 
   useEffect(() => {
     // Fetch initial solution and task from the server
@@ -49,7 +48,6 @@ export default function TaskPage({
       // Update the received message state with the data from the server
       if (data.title === currentTask.title) {
         setSolution(data.solution);
-        setExternalChange(true);
       }
     };
 
@@ -83,14 +81,12 @@ export default function TaskPage({
   }, [currentTask, socket]);
 
   const handleChange = (value) => {
-    if (value !== solution && !initialRender.current) {
-      if (!externalChange) {
+    if (value !== solution) {
+      if (!initialRender.current) {
         socket.emit("message", {
           title: currentTask ? currentTask.title : "",
           solution: value,
         });
-      } else {
-        setExternalChange(false);
       }
     }
   };
