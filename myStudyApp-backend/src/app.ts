@@ -9,8 +9,7 @@ import TaskService from "./services/TaskService";
 
 const PORT = process.env.PORT || 3000;
 
-let teacherID = null;
-let studentID = null;
+let teacher = null;
 
 const app = express();
 app.use(cors());
@@ -42,6 +41,14 @@ async function fetchDataAndCreateSolutionArray() {
   });
 }
 
+function broadcast(clientId, eventKey, message) {
+  for (const otherClientId in connectedClients) {
+    if (clientId !== otherClientId) {
+      connectedClients[otherClientId].emit(eventKey, message);
+    }
+  }
+}
+
 // establish database connection
 dataSource
   .initialize()
@@ -69,16 +76,6 @@ io.on("connection", (socket) => {
 
   console.log("Connected client ID:", clientId);
 
-  // Handling a request on the server
-  socket.on("requestEvent", (requestData) => {
-    console.log("Received request from client:", requestData);
-
-    // Event listener for "message" event from client
-
-    // Sending a response from the server
-    socket.emit("responseEvent", { message: "Hello from server" });
-  });
-
   socket.on("message", (data) => {
     console.log("Received message from client:", data);
     // Handle the received message here (e.g., log it or perform further processing)
@@ -89,7 +86,7 @@ io.on("connection", (socket) => {
       checkCode(foundItem);
     }
 
-    socket.broadcast.emit("message", data); // Broadcast it to all of the client
+    broadcast(clientId, "message", data); // Broadcast it to all of the client
   });
 
   function checkCode(foundItem) {
@@ -107,10 +104,8 @@ io.on("connection", (socket) => {
   }
 
   socket.on("isTeacher", (data) => {
-    const firstClientKey = Object.keys(connectedClients)[0];
-    if (firstClientKey) {
-      const firstClientSocket = connectedClients[firstClientKey];
-      firstClientSocket.emit("teacher", { teacher: true }); // Emit "teacher" message to the first client
+    if (clientId === teacher) {
+      socket.emit("teacher", { teacher: true }); // Emit "teacher" message to the client that asked
     }
   });
 
@@ -119,6 +114,7 @@ io.on("connection", (socket) => {
     foundItem ? (foundItem.SubmitStatus = true) : "";
     console.log(solutionArr);
     console.log("Submit event received from client:", data);
+
     const firstClientKey = Object.keys(connectedClients)[0];
     if (firstClientKey) {
       const firstClientSocket = connectedClients[firstClientKey];
@@ -127,14 +123,13 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("submitMessage", data);
   });
 
-  if (!teacherMessageSent) {
-    console.log("new teacher");
-    const firstClientKey = Object.keys(connectedClients)[0];
-    if (firstClientKey) {
-      const firstClientSocket = connectedClients[firstClientKey];
-      firstClientSocket.emit("teacher", { teacher: true });
-      teacherMessageSent = true;
-    }
+  socket.conn.on("close", () => {
+    delete connectedClients[clientId];
+  });
+
+  if (teacher === null || clientId === teacher) {
+    teacher = clientId;
+    socket.emit("teacher", { teacher: true });
   }
 });
 

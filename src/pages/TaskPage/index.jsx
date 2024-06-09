@@ -9,7 +9,7 @@ import {
   smileImgStyle,
 } from "../../styles/codeBlockStyles";
 
-export default function Index({
+export default function TaskPage({
   currentTask,
   setCurrentTask,
   socket,
