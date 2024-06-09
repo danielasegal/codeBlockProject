@@ -15,7 +15,7 @@ function index() {
           alignItems: "center",
         }}
       >
-        <h1 style={{ color: "yellow" }}> CODE BLOCK</h1>
+        <h1 style={{ color: "yellow", fontFamily: "logo-font" }}>CODE BLOCK</h1>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <button style={logBlockStyle} onClick={() => navigate("/HomePage")}>
             connect class
