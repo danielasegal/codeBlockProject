@@ -42,6 +42,7 @@ async function fetchDataAndCreateSolutionArray() {
 }
 
 function broadcast(clientId, eventKey, message) {
+  console.log("clientId", clientId, "others", Object.keys(connectedClients));
   for (const otherClientId in connectedClients) {
     if (clientId !== otherClientId) {
       connectedClients[otherClientId].emit(eventKey, message);
