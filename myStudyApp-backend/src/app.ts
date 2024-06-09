@@ -76,6 +76,12 @@ io.on("connection", (socket) => {
 
   console.log("Connected client ID:", clientId);
 
+  console.log("isTeacher", teacher, clientId);
+  if (teacher === null || clientId === teacher) {
+    teacher = clientId;
+    socket.emit("teacher", { teacher: true });
+  }
+
   socket.on("message", (data) => {
     console.log("Received message from client:", data);
     // Handle the received message here (e.g., log it or perform further processing)
@@ -126,11 +132,6 @@ io.on("connection", (socket) => {
   socket.conn.on("close", () => {
     delete connectedClients[clientId];
   });
-
-  if (teacher === null || clientId === teacher) {
-    teacher = clientId;
-    socket.emit("teacher", { teacher: true });
-  }
 });
 
 app.use("/api", apiRouter);

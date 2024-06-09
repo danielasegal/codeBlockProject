@@ -85,7 +85,7 @@ export default function TaskPage({
       if (!initialRender.current) {
         socket.emit("message", {
           title: currentTask ? currentTask.title : "",
-          solution: solution,
+          solution: value,
         });
       }
     }
