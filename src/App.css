@@ -1,0 +1,9 @@
+#root {
+  display: flex;
+  justify-content: flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  height: max-content;
+  margin-top: 0;
+}
