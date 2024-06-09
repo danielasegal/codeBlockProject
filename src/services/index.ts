@@ -7,6 +7,16 @@ import axios from "axios";
 //   activeDuration: 1000 * 60 * 5 // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds
 // }));
 
+declare global {
+  interface ImportMeta {
+    env: {
+      VITE_APP_BACKEND_URL: string;
+    };
+  }
+}
+
 export default axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL:
+    `${import.meta.env.VITE_APP_BACKEND_URL}/api/` ||
+    "http://localhost:3000/api/",
 });
